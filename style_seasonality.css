@@ -1,0 +1,57 @@
+h1{
+    text-align: center;
+}
+
+#description{
+    text-align: center;
+}
+
+.fy-container{
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.action-buttons{
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+
+}
+
+#combined-chart-container {
+    margin-top: -480px; 
+    width: 100%;
+    height: 300px; 
+    background-color: #f0f0f0;
+
+}
+
+#ks-container {
+    position: relative; /* Enable relative positioning */
+    border: 1px solid #ccc; /* Add a border around the container */
+    padding: 20px; /* Add padding inside the container */
+    width: 300px; /* Adjust the width as needed */
+    height: 1px;
+    text-align: center; /* Center the content */
+}
+
+#ks-label {
+    display: block; /* Ensure the label is a block-level element */
+    margin-bottom: 10px; /* Add space between the label and the span */
+}
+
+#ks-stat-val {
+    display: inline-block; /* Make it a block-level element */
+    border: 1px solid #000; /* Add a border for visibility */
+    padding: 10px; /* Add some padding inside the span element */
+    margin-top: 20px; /* Adjust the top margin to move the span down */
+    margin-left: 300px; /* Adjust the left margin to move the span to the right */
+}
+
+
+
+

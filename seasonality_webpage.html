@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="build your seasonal trading strategy using SPYX prices"
+    <title>Seasonality.io</title>
+    <link rel="stylesheet" href="style_seasonality.css">
+
+</head>
+<body>
+    <h1> Welcome to Seasonality.io </h1>
+    <p id="description"> The platform where you can you backtest Seasonality returns from the S&P 500 ETF SPYX </p>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="calculation.js"></script>
+
+    <form action="action_page.php" method="post">
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br> <!--fix this later-->
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="ks-container">
+            <label for="ks-stat-val" id="ks-label">Your Label:</label>
+            <span id="ks-stat-val">Your content here</span>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        
+        <div class="fy-container">
+
+
+            <div id="starting-fy">
+                <label for="starting-fy-label">Starting fiscal year</label >
+                <input type="number" id="starting-fy-label" placeholder="Fiscal Year Starting" required min="1993" max="2024" style="width: 10em;">
+            </div>
+            
+            <div id="ending-fy">
+                <label for="ending-fy-label">Ending fiscal year</label>
+                <input type="number" id="ending-fy-label" name="ending-fy" placeholder="Fiscal Year Ending" required min="1993" max="2023" style="width: 10em">
+            </div>
+
+            <div id="day-investment">
+                <label for="day">day of the week:</label>
+                <select title="day-time-horizion" id="day" name="horizon" required multiple>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
+            </div>
+
+        </div>
+        
+        <br>
+
+        <div class = "action-buttons">
+
+            <div id="reset-button">
+                <input type="reset">
+            </div>
+
+            <div id="submit-button"> 
+                <button type="button" onclick="filterAndCalculate()">Calculate</button>
+            </div>
+
+        </div>
+
+    </form>
+    <div id="combined-chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+</body>
+</html>
