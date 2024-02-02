@@ -4,21 +4,17 @@ var originalData;
 var filteredData;
 
 function ksTest(data1, data2) {
-  // Sort the data arrays
+  
   data1 = data1.slice().sort((a, b) => a - b);
   data2 = data2.slice().sort((a, b) => a - b);
 
-  // Combine the datasets
   const combinedData = data1.concat(data2);
 
-  // Calculate the cumulative distribution functions (CDF) for both datasets
   const cdf1 = calculateCDF(data1, combinedData);
   const cdf2 = calculateCDF(data2, combinedData);
 
-  // Calculate the KS statistic
   const ksStat = calculateKSStatistic(cdf1, cdf2);
 
-  // Calculate the p-value
   const n1 = data1.length;
   const n2 = data2.length;
   const lambda = Math.sqrt((n1 * n2) / (n1 + n2));
@@ -56,7 +52,7 @@ function calculateKSStatistic(cdf1, cdf2) {
 }
 
 function cumulativeDistribution(x) {
-  // In this example, we use the standard normal cumulative distribution function (CDF)
+  
   return 0.5 * (1 + erf(x / Math.sqrt(2)));
 }
 
@@ -150,11 +146,9 @@ function createHistogram(originalData, filteredData, containerID, title) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
-      // Define x and y scales
       var x = d3.scaleLinear().range([0, width]);
       var y = d3.scaleLinear().range([height, 0]);
     
-      // Create histogram for originalData
       var histogramOriginal = d3
         .histogram()
         .value(function (d) {
@@ -167,7 +161,6 @@ function createHistogram(originalData, filteredData, containerID, title) {
     
       var binsOriginal = histogramOriginal(originalData);
     
-      // Update x and y scales with the domain of the original data
       x.domain([d3.min(originalData, function (d) { return d.Returns; }), d3.max(originalData, function (d) { return d.Returns; })]);
       y.domain([0, d3.max(binsOriginal, function (d) { return d.length; })]);
       
@@ -176,12 +169,10 @@ function createHistogram(originalData, filteredData, containerID, title) {
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x).ticks(10).tickSize(-height).tickFormat(""));
 
-      // Draw y grid lines
       svg.append("g")
         .attr("class", "grid")
         .call(d3.axisLeft(y).ticks(5).tickSize(-width).tickFormat(""));
 
-      // Draw x-axis
       svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x))
@@ -192,7 +183,6 @@ function createHistogram(originalData, filteredData, containerID, title) {
         .style("text-anchor", "middle")
         .text("Returns");
 
-    // Draw y-axis
       svg.append("g")
         .call(d3.axisLeft(y))
         .append("text")
@@ -203,8 +193,6 @@ function createHistogram(originalData, filteredData, containerID, title) {
         .style("text-anchor", "middle")
         .text("Frequency");
       
-
-      // Draw bars for originalData
       svg
         .selectAll(".barOriginal")
         .data(binsOriginal)
@@ -225,7 +213,6 @@ function createHistogram(originalData, filteredData, containerID, title) {
         })
         .attr("fill", "orange");
     
-      // Create histogram for filteredData
       var histogramFiltered = d3
         .histogram()
         .value(function (d) {
@@ -238,11 +225,9 @@ function createHistogram(originalData, filteredData, containerID, title) {
     
       var binsFiltered = histogramFiltered(filteredData);
     
-      // Update x and y scales with the domain of the filtered data
       x.domain([d3.min(filteredData, function (d) { return d.Returns; }), d3.max(filteredData, function (d) { return d.Returns; })]);
       y.domain([0, d3.max(binsFiltered, function (d) { return d.length; })]);
     
-      // Draw bars for filteredData
       svg
         .selectAll(".barFiltered")
         .data(binsFiltered)
@@ -273,10 +258,8 @@ function createHistogram(originalData, filteredData, containerID, title) {
     }
     
   function addBooleanColumnBySelectedDays(data, selectedDays) {
-    // Add a new boolean column for the selected days
-    var newColumnName = 'is' + selectedDays.join('Is').replace(/-/g, ''); // Format: isMondayIsTuesday
+    var newColumnName = 'is' + selectedDays.join('Is').replace(/-/g, ''); 
   
-    // Update each data point with a true/false value for the new column
     data.forEach(function (d) {
       d[newColumnName] = selectedDays.some(function (day) {
         return d.Day.toLowerCase() === day.toLowerCase();
@@ -288,21 +271,15 @@ function createHistogram(originalData, filteredData, containerID, title) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Function to get the last column name of the data
 function getLastColumnName(data) {
-  // Assuming 'data' is an array of objects
   if (data.length > 0) {
       return Object.keys(data[0]).pop();
   }
   return null;
 }
 
-// Function to generate equity curve
 function generateEquityCurve(data) {
-  // Assuming the dataset has a "Returns" column representing returns per trade
-  // and the last column is the signal column that indicates when to enter or exit a trade
 
-  // Determine the last column name
   var signalColumn = getLastColumnName(data);
 
   if (!signalColumn) {
@@ -310,26 +287,21 @@ function generateEquityCurve(data) {
       return [];
   }
 
-  // Initialize variables
   var equityCurve = [];
   var currentEquity = 0;
   var isInTrade = false;
 
-  // Iterate through the dataset
   data.forEach(function (d) {
-      // Check if the signal is true (enter trade)
       if (d[signalColumn] && !isInTrade) {
           isInTrade = true;
-          currentEquity += d.Returns || 0; // Assuming "Returns" column is present
+          currentEquity += d.Returns || 0;
       }
 
-      // Check if the signal is false (exit trade)
       if (!d[signalColumn] && isInTrade) {
           isInTrade = false;
-          currentEquity += d.Returns || 0; // Assuming "Returns" column is present
+          currentEquity += d.Returns || 0;
       }
 
-      // Save the equity value for each data point
       equityCurve.push({ Date: d.Date, Equity: currentEquity });
   });
 
@@ -337,13 +309,10 @@ function generateEquityCurve(data) {
 }
 
 function generateChart(data) {
-  // Assuming 'originalData' is available
   var equityCurveData = generateEquityCurve(data);
 
-  // Get the canvas element
   var ctx = document.getElementById('combined-chart-container').getContext('2d');
 
-  // Create the chart
   var myChart = new Chart(ctx, {
       type: 'line',
       data: {
